@@ -16,7 +16,7 @@ module CmQuiz
         jwt, _ = Factory::User.new({
           project_api: @project_api
         }).create
-        idea_payloads = 3.times.map do |i|
+        idea_payloads = [1, 3, 5, 2, 6, 4].map do |i|
           Factory::Idea.new({
             project_api: @project_api,
             jwt: jwt,
@@ -41,6 +41,12 @@ module CmQuiz
           expect(item['average_score']).to be_within(0.1).of(average_score)
           diff = Time.now - Time.at(item['created_at'])
           expect(diff).to be <= VALID_TIME_DIFF
+        end
+
+        running_average = 10;
+        res_hash.each do |item|
+          expect(item['average_score']).to be <= running_average
+          running_average = item['average_score']
         end
       end
 

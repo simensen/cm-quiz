@@ -23,6 +23,32 @@ module CmQuiz
       tests << Review::GetIdeas.new(project_api: project_api).perform
       tests << Review::UpdateIdea.new(project_api: project_api).perform
       tests << Review::DeleteIdea.new(project_api: project_api).perform
+
+      # 1
+      tests << Review::CreateIdeaWithInvalidContentEmpty.new(project_api: project_api).perform
+      tests << Review::CreateIdeaWithInvalidContentTooLong.new(project_api: project_api).perform
+      tests << Review::CreateIdeaWithInvalidEaseNotNumeric.new(project_api: project_api).perform
+      tests << Review::CreateIdeaWithInvalidEaseTooHigh.new(project_api: project_api).perform
+      tests << Review::CreateIdeaWithInvalidEaseTooLow.new(project_api: project_api).perform
+
+      # 2
+      tests << Review::GetUserInfoInvalidJwt.new(project_api: project_api).perform
+
+      # 3
+      tests << Review::UpdateIdeaWithoutAuthentication.new(project_api: project_api).perform
+
+      # 4
+      tests << Review::UpdateIdeaWithoutAuthorization.new(project_api: project_api).perform
+
+      # 6
+      tests << Review::DeleteIdeaWithoutAuthentication.new(project_api: project_api).perform
+
+      # 7
+      tests << Review::DeleteIdeaWithoutAuthentication.new(project_api: project_api).perform
+
+      # 8
+      tests << Review::DeleteIdeaWithoutAuthorization.new(project_api: project_api).perform
+
       tests
     end
 
@@ -32,8 +58,10 @@ module CmQuiz
         verb = result[0][:verb].upcase
         path = result[0][:path]
         options = result[0][:options]
+        test_class_name = result[3]
         passed = result[1]
-        messages = ["===#{verb} #{@endpoint}#{path}==="]
+        messages = [":::#{test_class_name}:::"]
+        messages << "===#{verb} #{@endpoint}#{path}==="
         messages << ""
         messages << "HTTP method:"
         messages << verb

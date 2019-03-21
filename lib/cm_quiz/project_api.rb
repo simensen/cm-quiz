@@ -32,7 +32,7 @@ module CmQuiz
       }
       res = HTTParty.send(verb, url, http_options)
 
-      raise PerformFailed.new("[#{res.code}]: #{res.body}", res) unless res.success?
+      #raise PerformFailed.new("[#{res.code}]: #{res.body}", res) unless res.success?
 
       res
     end

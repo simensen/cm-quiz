@@ -20,7 +20,7 @@ module CmQuiz
       end
 
       def build_test_result(test_case, passed = true, message = nil)
-        [test_case, passed, message]
+        [test_case, passed, message, self.class]
       end
 
       def test_request
